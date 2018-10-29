@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Film</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="title_activity_sinopsis">Movie Directory</string>
+    <string name="title_activity_movie_directory">MovieDirectory</string>
 </resources>

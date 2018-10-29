@@ -1,11 +1,8 @@
 package com.willywijayae.myfilm;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,28 +20,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class Sinopsis extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sinopsis);
 
 
-
-        Button buttonMove = findViewById(R.id.btnLihat);
-        buttonMove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Sinopsis.class);
-                startActivity(intent);
-
-            }
-        });
 
         final TextView tvNama = findViewById(R.id.tvNama);
         final TextView tvSinopsis = findViewById(R.id.tvSinopsis);
-        final ImageButton img = findViewById(R.id.imgButton);
+        final TextView tvTanggal = findViewById(R.id.tglTayang);
+        final ImageView img = findViewById(R.id.imgPoster);
+
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?" +
                 "api_key=32f7f07283696dba81c173ea5b35c87d";
@@ -69,19 +58,21 @@ public class MainActivity extends AppCompatActivity {
                     final JSONArray arrayNama = objData.getJSONArray("results");
                     final JSONObject objNama = new JSONObject(arrayNama.get(0).toString());
 
-                    MainActivity.this.runOnUiThread(new Runnable() {
+                    Sinopsis.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
 
                                 tvNama.setText(objNama.get("title").toString());
                                 tvSinopsis.setText(objNama.get("overview").toString());
+                                tvTanggal.setText(objNama.get("release_date").toString());
 
                                 String urlIcon = "http://image.tmdb.org/t/p/w185"+
                                         objNama.get("poster_path");
-                                Glide.with(MainActivity.this)
+                                Glide.with(Sinopsis.this)
                                         .load(urlIcon)
                                         .into(img);
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -98,6 +89,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
+
 }
